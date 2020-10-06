@@ -12,7 +12,6 @@ class TransactionsController extends Controller
     //get all trans
     public function index(Request $request, TransactionService $transactionService)
     {
-        $length = $request->input('length');
         $orderBy = $request->input('column'); //Index
         $orderByDir = $request->input('dir', 'asc');
         $searchValue = $request->input('search');
