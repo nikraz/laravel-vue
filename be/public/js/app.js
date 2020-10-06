@@ -2017,6 +2017,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2024,13 +2026,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       data: {},
-      selectOptions: [],
-      tableProps: {
-        search: '',
-        length: 10,
-        column: 'id',
-        dir: 'asc'
-      },
+      paginate: false,
+      pagination: false,
       columns: [{
         label: '#',
         name: 'id',
@@ -2095,7 +2092,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     reloadTable: function reloadTable(tableProps) {
-      console.log(tableProps);
       this.getData(tableProps);
     }
   },
@@ -27265,7 +27261,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("data-table", {
-    attrs: { data: _vm.data, columns: _vm.columns },
+    attrs: {
+      data: _vm.data,
+      columns: _vm.columns,
+      url: "http://127.0.0.1:8000/api/transactions"
+    },
     on: { onTablePropsChanged: _vm.reloadTable }
   })
 }

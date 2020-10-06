@@ -32,6 +32,7 @@ class TransactionsRepository extends AbstractRepository
             ->orWhere('users.email', "LIKE", "%$searchValue%")
             ->orWhere('transactions.amount', "LIKE", "%$searchValue%")
             ->orWhere('transaction_types.type', "LIKE", "%$searchValue%")
-            ->orderBy($orderBy, $orderByDir)->get();
+            ->orderBy($orderBy, $orderByDir)
+            ->get();
     }
 }

@@ -24,7 +24,7 @@ class TransactionService extends AbstractService
      * @param $searchValue
      * @return Collection
      */
-    public function getTransactionsByCriteria($orderBy, $orderByDir, $searchValue):Collection
+    public function getTransactionsByCriteria($orderBy, $orderByDir, $searchValue): Collection
     {
         return $this->_transactionRepository->getTransactionsByCriteria($orderBy, $orderByDir, $searchValue);
     }

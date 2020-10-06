@@ -2,7 +2,9 @@
     <data-table
         :data="data"
         :columns="columns"
-        @onTablePropsChanged="reloadTable">
+        @onTablePropsChanged="reloadTable"
+        url="http://127.0.0.1:8000/api/transactions"
+        >
     </data-table>
 </template>
 
@@ -16,13 +18,8 @@ export default {
     data() {
         return {
             data: {},
-            selectOptions: [],
-            tableProps: {
-                search: '',
-                length: 10,
-                column: 'id',
-                dir: 'asc'
-            },
+            paginate: false,
+            pagination:false,
             columns: [
                 {
                     label: '#',
@@ -62,7 +59,7 @@ export default {
                     component: DeleteButton,
                     searchable: false
                 },
-            ]
+            ],
         }
     },
     created() {
@@ -92,7 +89,6 @@ export default {
             })
         },
         reloadTable(tableProps) {
-            console.log(tableProps);
             this.getData(tableProps);
         }
     },
