@@ -20,7 +20,7 @@
         <b-input-group class="mt-12 mb-12" size="sm">
             <b-button @click="createModalWindow">Create New Transaction</b-button>
         </b-input-group>
-        <b-modal :id="createModal.id" :title="createModal.title" ok-only @hide="resetCreateModal">
+        <b-modal :id="createModal.id" :title="createModal.title" ok-only>
             <form action="" @submit="createTransaction">
                 <h4 class="text-center font-weight-bold">Post creation form</h4>
                 <div class="form-group">
@@ -62,8 +62,7 @@ export default {
             ],
             createModal: {
                 id: 'create-modal',
-                title: '',
-                content: ''
+                title: 'createTransaction',
             }
         }
     },
@@ -130,13 +129,8 @@ export default {
             })
         },
         createModalWindow(){
-                this.createModal.title = 'createTransaction'
-                this.createModal.content = Vue.component('CreateTransaction');
                 this.$root.$emit('bv::show::modal', this.createModal.id);
         },
-        resetCreateModal(){
-                this.createModal.title = '';
-        }
     }
 }
 </script>
