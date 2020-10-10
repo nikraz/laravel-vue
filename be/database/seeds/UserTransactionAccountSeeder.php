@@ -14,9 +14,12 @@ class UserTransactionAccountSeeder extends Seeder
     {
         DB::table('user_transaction_accounts')->truncate();
 
-        UserTransactionAccounts::create(array(
-            'user_id' => 1,
-            'balance' => 10000,
-        ));
+        foreach(range(1, 10) as $index)
+        {
+            UserTransactionAccounts::create(array(
+                'user_id' => $index,
+                'balance' => 10000,
+            ));
+        }
     }
 }

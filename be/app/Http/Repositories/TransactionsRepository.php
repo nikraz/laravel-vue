@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Repositories;
+use App\Transactions;
 use Illuminate\Support\Collection;
 
 class TransactionsRepository extends AbstractRepository
@@ -34,5 +35,36 @@ class TransactionsRepository extends AbstractRepository
             ->orWhere('transaction_types.type', "LIKE", "%$searchValue%")
             ->orderBy($orderBy, $orderByDir)
             ->get();
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function removeTransactionById(int $id): bool
+    {
+            $transaction = Transactions::findOrFail($id);
+            if($transaction){
+                $transaction->delete();
+                return true;
+            }
+
+            return false;
+    }
+
+    //Normally should return collection of new record and resource todo if time
+    public function storeTransaction($amount, $type_id, $utc_id): bool
+    {
+        try {
+           $trans = Transactions::create([
+                'account_id' => $utc_id,
+                'amount' => $amount,
+                'type_id' => $type_id,
+            ]);
+            $trans->save();
+            return true;
+        } catch (\Exception $exception) {
+            return false;
+        }
     }
 }

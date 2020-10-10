@@ -4,10 +4,11 @@ import actions from './actions'
 import mutations from './mutations'
 import getters from './getters'
 import state from "./state";
-import DataTable from 'laravel-vue-datatable';
+import boostrap from "bootstrap-vue"
 
+//Registered globally
 Vue.use(Vuex);
-Vue.use(DataTable);
+Vue.use(boostrap);
 
 export default new Vuex.Store({
     state,

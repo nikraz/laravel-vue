@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteTransaction;
+use App\Http\Requests\StoreTransaction;
 use App\Http\Services\TransactionService;
 use App\Transactions;
 use Illuminate\Http\Request;
-use JamesDordoy\LaravelVueDatatable\Http\Resources\DataTableCollectionResource;
 
 class TransactionsController extends Controller
 {
-    //get all trans
     public function index(Request $request, TransactionService $transactionService)
     {
         $orderBy = $request->input('column'); //Index
@@ -17,50 +17,39 @@ class TransactionsController extends Controller
         $searchValue = $request->input('search');
         $transactions = $transactionService->getTransactionsByCriteria($orderBy,$orderByDir,$searchValue);
 
-        return new DataTableCollectionResource($transactions);
+        return  response()->json($transactions);
     }
-//post store trans
-    public function store(Request $request)
+
+    public function store(StoreTransaction $request, TransactionService $transactionService)
     {
-        $post = Transactions::create($request->all());
+        $amount = $request->get('amount');
+        $utc_id = $transactionService->getUserAccountIdByUserName($request->get('name'));
+        $type_id = $transactionService->getTypeId($request->get('type'));
 
-        return response()->json($post);
-    }
-//get create page
-    public function create(Request $request)
-    {
-        $post = Transactions::create($request->all());
+        //TODO shoudl be related to user_Transactions_accounts and there is no unique field there as ther could be multiple accounts per user,
+        //For task we only take first from that table (As default) based on user name when creating transasction
+        $transactionStored = $transactionService->storeTransaction($amount, $type_id, $utc_id);
 
-        return response()->json($post);
-    }
+        if (!$transactionStored) {
+            return response()->json('fail', 400);
+        }
 
-    //get single trans
-    public function show(Request $request)
-    {
-        $post = Transactions::create($request->all());
-
-        return response()->json($post);
+        return response()->json("ok", 201);
     }
 
-    //put/update single trans
     public function update(Request $request)
     {
         $post = Transactions::create($request->all());
 
         return response()->json($post);
     }
-//detete trans
-    public function destroy($id)
-    {
-        Transactions::destroy($id);
 
-        return response()->json("ok");
-    }
-    //edit single trans
-    public function edit($id)
+    public function destroy($id, TransactionService $transactionService)
     {
-        Transactions::destroy($id);
-
-        return response()->json("ok");
+        $transactionRemoved = $transactionService->removeTransactionById($id);
+        if (!$transactionRemoved) {
+            return response()->json('fail', 400);
+        }
+        return response()->json("ok", 204);
     }
 }

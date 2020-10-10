@@ -12,8 +12,6 @@ let actions = {
         axios.get('/api/transactions')
             .then(res => {
                 commit('FETCH_TRANSACTION', res.data)
-                console.log(res.data);
-                console.log(res.data.data);
             }).catch(err => {
             console.log(err)
         })
