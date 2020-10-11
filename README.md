@@ -1,5 +1,7 @@
 # laravel-vue
 ### Setup
+##### Prerequesities
+npm version : 6.14.6 | php version: 7.2 | mysql version: 5.7.31
 ##### Clone the project
 `git clone https://github.com/nikraz/laravel-vue.git`
 ##### Go to be/
