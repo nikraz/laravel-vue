@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DeleteTransaction;
 use App\Http\Requests\StoreTransaction;
+use App\Http\Requests\UpdateTransaction;
 use App\Http\Services\TransactionService;
 use App\Transactions;
 use Illuminate\Http\Request;
@@ -38,7 +39,7 @@ class TransactionsController extends Controller
         return response()->json("ok", 201);
     }
 
-    public function update($id, Request $request, TransactionService $transactionService)
+    public function update($id, UpdateTransaction $request, TransactionService $transactionService)
     {
         $transactionUpdate = $transactionService->updateByType($id, $request->get('type'), $request->get('value'));
 

@@ -26,7 +26,7 @@ class UserTransactionAccountsRepository extends AbstractRepository
      * @param $balance
      * @return bool
      */
-    public function updateBalanceById($id, $balance): bool
+    public function  updateBalanceById($id, $balance): bool
     {
         $uta = UserTransactionAccounts::find($id);
 

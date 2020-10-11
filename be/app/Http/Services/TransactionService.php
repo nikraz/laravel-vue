@@ -110,27 +110,15 @@ class TransactionService extends AbstractService
     public function updateByType($transactionId, $type, $newValue): bool
     {
             switch ($type){
-                case 'user_balance':
-                    $newValue = explode(' (', $newValue);
-                    $userName = $newValue[0];
-                    $balance = substr($newValue[1], 0, -2);
-                    DB::beginTransaction();
-                        try {
+                case 'name':
                             $accountId = $this->_transactionRepository->getAccountIdById($transactionId);
                             $userId = $this->_userTransactionAccountsRepository->getUserById($accountId);
-                            if ($accountId && $userId) {
-                                $this->_userTransactionAccountsRepository->updateBalanceById($accountId, $balance);
-                                $this->_usersRepository->updateNameById($userId, $userName);
-                            }
-                        } catch(\Exception $e)
-                        {
-                            Log::error('Issue with update user_balance! Transaction_id='. $transactionId);
-                            DB::rollback();
-                            return false;
-                        }
-                    DB::commit();
 
-                    return true;
+                            if (!$userId) {
+                                return false;
+                            }
+
+                            return $this->_usersRepository->updateNameById($userId, $newValue);
                 case 'type':
                     $typeId = $this->_transactionTypesRepository->getTransactionTypesId($newValue);
 
@@ -141,6 +129,14 @@ class TransactionService extends AbstractService
                     return false;
                 case 'amount':
                   return  $this->_transactionRepository->updateAmountById($transactionId, $newValue);
+                case 'balance':
+                    $accountId = $this->_transactionRepository->getAccountIdById($transactionId);
+
+                    if (!$accountId) {
+                        return false;
+                    }
+
+                  return  $this->_userTransactionAccountsRepository->updateBalanceById($accountId, $newValue);
              }
 
     }

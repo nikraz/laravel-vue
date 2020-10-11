@@ -1,6 +1,7 @@
 #table {
   margin: 0 auto;
-  width: 500px;
+  width: 600px;
+  color: black;
 }
 
 #table .input-group-text {
@@ -13,9 +14,22 @@
 
 #table .fa-check-circle {
   color: greenyellow;
+  font-size: 2.2em;
 }
 
 #table .fa-window-close {
   color: orangered;
+  font-size: 2.2em;
+}
+
+#table .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 

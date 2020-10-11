@@ -21,7 +21,8 @@ class TransactionsRepository extends AbstractRepository
             ->join('transaction_types', 'transaction_types.id', '=', 'transactions.type_id')
             ->select(
                 'transactions.id',
-                \DB::raw("CONCAT(users.name,' (',user_transaction_accounts.balance,')$')  AS user_balance"),
+                'users.name',
+                'user_transaction_accounts.balance',
                 'transaction_types.type',
                 'transactions.amount',
                 'users.email'

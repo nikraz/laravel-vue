@@ -8,21 +8,30 @@
                 </b-btn>
             </b-input-group-text>
         </b-input-group>
-        <b-table :fields="fields" :items="items" :keyword="keyword" :tbody-tr-class="rowClass" @cell-dblclick="tableDbEdit">
+        <b-table :fields="fields" :items="items" :keyword="keyword" :tbody-tr-class="rowClass">
             <template v-slot:cell(id)="row" >
                 <span>{{ row.item.id.value }}</span>
             </template>
-            <template v-slot:cell(user_balance)="row" >
-                <div  v-show = "row.item.user_balance.edit === false" >
-                    <span @dblclick = "row.item.user_balance.edit = true">{{ row.item.user_balance.value }} </span>
+            <template v-slot:cell(user_balance)="row">
+                <div  v-show = "row.item.name.edit === false" >
+                    <span @dblclick = "row.item.name.edit = true">{{ row.item.name.value + ' (' + row.item.balance.value + ')$' }} </span>
                 </div>
-                <div  v-show = "row.item.user_balance.edit === true">
+                <div  v-show = "row.item.name.edit === true">
                     <b-input-group>
-                        <b-input v-model="row.item.user_balance.value"></b-input>
-                        <span @click = "UpdateCell(row.item.id.value, row.item.user_balance.value, 'user_balance')">
+                        <b-input v-model="row.item.name.value"></b-input>
+                        <span @click = "UpdateCell(row.item.id.value, row.item.name.value, 'name')">
                             <i class="fa fa-check-circle"></i>
                         </span>
-                        <span @click = "row.item.user_balance.edit = false">
+                        <span @click = "row.item.name.edit = false">
+                            <i class="fa fa-window-close"></i>
+                        </span>
+                    </b-input-group>
+                    <b-input-group>
+                        <b-input v-model="row.item.balance.value"></b-input>
+                        <span @click = "UpdateCell(row.item.id.value, row.item.balance.value, 'balance')">
+                            <i class="fa fa-check-circle"></i>
+                        </span>
+                        <span @click = "row.item.name.edit = false">
                             <i class="fa fa-window-close"></i>
                         </span>
                     </b-input-group>
@@ -35,7 +44,7 @@
                 <div  v-show = "row.item.type.edit === true">
                     <b-input-group>
                         <b-input v-model="row.item.type.value"></b-input>
-                        <span @click = "UpdateCell(row.item.id.value, row.item.type.value, 'type')">
+                        <span @click = "row.item.type.edit === true && UpdateCell(row.item.id.value, row.item.type.value, 'type')">
                             <i class="fa fa-check-circle"></i>
                         </span>
                         <span @click = "row.item.type.edit = false">
@@ -133,7 +142,8 @@ export default {
             return this.keyword
                 ? this.dataArray.filter(item =>
                     item.id.value.toString().includes(this.keyword) ||
-                    item.user_balance.value.toString().includes(this.keyword) ||
+                    item.name.value.toString().includes(this.keyword) ||
+                    item.balance.value.toString().includes(this.keyword) ||
                     item.type.value.includes(this.keyword) ||
                     item.email.value.includes(this.keyword) ||
                     item.amount.value.toString().includes(this.keyword))
