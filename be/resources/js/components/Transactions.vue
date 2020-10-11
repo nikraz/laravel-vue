@@ -19,7 +19,7 @@
                 <div  v-show = "row.item.name.edit === true">
                     <b-input-group>
                         <b-input v-model="row.item.name.value"></b-input>
-                        <span @click = "UpdateCell(row.item.id.value, row.item.name.value, 'name')">
+                        <span @click = "UpdateCell(row.item.id.value, row.item.name.value, 'name')" :disabled="state.isSending">
                             <i class="fa fa-check-circle"></i>
                         </span>
                         <span @click = "row.item.name.edit = false">
@@ -28,7 +28,7 @@
                     </b-input-group>
                     <b-input-group>
                         <b-input v-model="row.item.balance.value"></b-input>
-                        <span @click = "UpdateCell(row.item.id.value, row.item.balance.value, 'balance')">
+                        <span @click = "UpdateCell(row.item.id.value, row.item.balance.value, 'balance')" :disabled="state.isSending">
                             <i class="fa fa-check-circle"></i>
                         </span>
                         <span @click = "row.item.name.edit = false">
@@ -44,7 +44,7 @@
                 <div  v-show = "row.item.type.edit === true">
                     <b-input-group>
                         <b-input v-model="row.item.type.value"></b-input>
-                        <span @click = "row.item.type.edit === true && UpdateCell(row.item.id.value, row.item.type.value, 'type')">
+                        <span @click = "row.item.type.edit === true && UpdateCell(row.item.id.value, row.item.type.value, 'type')" :disabled="state.isSending">
                             <i class="fa fa-check-circle"></i>
                         </span>
                         <span @click = "row.item.type.edit = false">
@@ -71,7 +71,7 @@
             </template>
 
             <template  v-slot:cell(actions)="row">
-                <b-button @click="DeleteRow(row.item)" title="Delete Row">
+                <b-button @click="DeleteRow(row.item)" title="Delete Row" :disabled="state.isSending">
                     <span>
                         <i class="fa fa-trash" aria-hidden="true"></i>
                     </span>
@@ -79,7 +79,7 @@
             </template>
         </b-table>
         <b-input-group class="mt-12 mb-12" size="sm">
-            <b-button @click="createModalWindow">Create New Transaction</b-button>
+            <b-button @click="createModalWindow" :disabled="state.isSending">Create New Transaction</b-button>
         </b-input-group>
         <b-modal :id="createModal.id" :title="createModal.title" ok-only>
             <form action="" @submit="createTransaction">
@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="form-group">
-                    <button class="btn btn-block btn-primary" @click.prevent="createTransaction">Submit
+                    <button class="btn btn-block btn-primary" @click.prevent="createTransaction" :disabled="state.isSending">Submit
                     </button>
                 </div>
             </form>
@@ -114,6 +114,9 @@ export default {
         return {
             keyword: '',
             dataArray: [],
+            state: {
+                isSending: false
+            },
             fields: [
                 {key: 'id', label: 'ID', sortable: true},
                 {key: 'user_balance',
@@ -168,23 +171,28 @@ export default {
             if (item.type.value === 'Credit Card') return 'table-danger'
         },
         DeleteRow(transaction) {
+            this.state.isSending = true;
             axios.delete(`/api/transactions/${transaction.id.value}`)
                 .then(res => {
                     if (res.status === 204)
                         this.reloadTable();
                         console.log('deleted')
                 }).catch(err => {
+                this.state.isSending = false;
                 console.log(err);
             })
         },
         reloadTable() {
+            this.state.isSending = true;
             axios
                 .get('http://127.0.0.1:8000/api/transactions')
                 .then(response => {
+                    this.state.isSending = false;
                     this.dataArray = response.data
                 })
         },
         createTransaction(){
+            this.state.isSending = true;
             axios.post('/api/transactions',{
                 name: this.create.name,
                 type:this.create.type,
@@ -196,6 +204,7 @@ export default {
                         this.reloadTable();
                         console.log('created')
                 }).catch(err => {
+                this.state.isSending = false;
                 console.log(err)
             })
         },
@@ -206,15 +215,18 @@ export default {
             this.$root.$emit('bv::hide::modal', this.createModal.id);
         },
         UpdateCell(transactionId, newValue, typeOfCell){
+            this.state.isSending = true;
             axios.patch(`/api/transactions/${transactionId}`, {
                 type: typeOfCell,
                 value: newValue
             })
                 .then(res => {
+                    this.state.isSending = false;
                     if (res.status === 200 && res.data === "ok")
                         this.reloadTable();
                     console.log('deleted')
                 }).catch(err => {
+                this.state.isSending = false;
                 console.log(err);
             })
         }

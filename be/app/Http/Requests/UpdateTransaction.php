@@ -17,7 +17,7 @@ class UpdateTransaction extends FormRequest
         $rules = [];
 
         if ($this->request->get('type') == 'name') {
-            $rules['value'] = 'required|min:4';
+            $rules['value'] = 'required|min:4|max:40';
         }
         if ($this->request->get('type') == 'balance') {
             $rules['value'] = 'required|min:1';
