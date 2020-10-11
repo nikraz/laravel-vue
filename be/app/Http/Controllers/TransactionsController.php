@@ -12,10 +12,11 @@ class TransactionsController extends Controller
 {
     public function index(Request $request, TransactionService $transactionService)
     {
-        $orderBy = $request->input('column'); //Index
+        //TODO remove search and columns dir
+        $orderBy = $request->input('column', 'id'); //Index
         $orderByDir = $request->input('dir', 'asc');
-        $searchValue = $request->input('search');
-        $transactions = $transactionService->getTransactionsByCriteria($orderBy,$orderByDir,$searchValue);
+        $transactions = $transactionService->getTransactionsByCriteria($orderBy,$orderByDir);
+        $transactions = $transactionService->addEditCellOptionToResultSet($transactions);
 
         return  response()->json($transactions);
     }
@@ -37,19 +38,25 @@ class TransactionsController extends Controller
         return response()->json("ok", 201);
     }
 
-    public function update(Request $request)
+    public function update($id, Request $request, TransactionService $transactionService)
     {
-        $post = Transactions::create($request->all());
+        $transactionUpdate = $transactionService->updateByType($id, $request->get('type'), $request->get('value'));
 
-        return response()->json($post);
+        if (!$transactionUpdate) {
+            return response()->json('fail', 400);
+        }
+
+        return response()->json("ok", 200);
     }
 
     public function destroy($id, TransactionService $transactionService)
     {
         $transactionRemoved = $transactionService->removeTransactionById($id);
+
         if (!$transactionRemoved) {
             return response()->json('fail', 400);
         }
+
         return response()->json("ok", 204);
     }
 }

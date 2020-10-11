@@ -1,0 +1,21 @@
+#table {
+  margin: 0 auto;
+  width: 500px;
+}
+
+#table .input-group-text {
+  padding: 0 0.5em 0 0.5em;
+}
+
+#table .input-group-text .fa {
+  font-size: 12px;
+}
+
+#table .fa-check-circle {
+  color: greenyellow;
+}
+
+#table .fa-window-close {
+  color: orangered;
+}
+

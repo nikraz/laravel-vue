@@ -25,7 +25,27 @@ class TransactionsSeeder extends Seeder
             'type_id' => 1,
         ));
         Transactions::create(array(
-            'account_id' => 1,
+            'account_id' => 4,
+            'amount' => 100,
+            'type_id' => 2,
+        ));
+        Transactions::create(array(
+            'account_id' => 6,
+            'amount' => 100,
+            'type_id' => 2,
+        ));
+        Transactions::create(array(
+            'account_id' => 2,
+            'amount' => 100,
+            'type_id' => 1,
+        ));
+        Transactions::create(array(
+            'account_id' => 3,
+            'amount' => 150,
+            'type_id' => 2,
+        ));
+        Transactions::create(array(
+            'account_id' => 2,
             'amount' => 150,
             'type_id' => 2,
         ));

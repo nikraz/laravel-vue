@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Repositories;
-use Illuminate\Support\Collection;
+
+use App\UserTransactionAccounts;
 
 class UserTransactionAccountsRepository extends AbstractRepository
 {
@@ -20,4 +21,37 @@ class UserTransactionAccountsRepository extends AbstractRepository
             ->first()->id;
     }
 
+    /**
+     * @param $id
+     * @param $balance
+     * @return bool
+     */
+    public function updateBalanceById($id, $balance): bool
+    {
+        $uta = UserTransactionAccounts::find($id);
+
+        if ($uta) {
+            $uta->balance = $balance;
+            $uta->save();
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /**
+     * @param $id
+     * @return int
+     */
+    public function getUserById($id): int
+    {
+        $uta = UserTransactionAccounts::find($id);
+
+        if ($uta) {
+            return $uta->user_id;
+        }
+
+        return 0;
+    }
 }
