@@ -116,7 +116,14 @@ export default {
             dataArray: [],
             fields: [
                 {key: 'id', label: 'ID', sortable: true},
-                {key: 'user_balance', label: 'User(Balance)', sortable: true},
+                {key: 'user_balance',
+                    sortable: true,
+                    sortByFormatted: true,
+                    formatter: (value, key, item) => {
+                        return item.name ;
+                    }
+                },
+                // {key: 'user_balance', label: 'User(Balance)', sortable: true},
                 {key: 'type', label: 'Type', sortable: true},
                 {key: 'amount', label: 'Amount', sortable: true},
                 {key: 'actions', label: 'Actions'},
