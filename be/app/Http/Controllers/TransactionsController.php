@@ -25,12 +25,12 @@ class TransactionsController extends Controller
     public function store(StoreTransaction $request, TransactionService $transactionService)
     {
         $amount = $request->get('amount');
-        $utc_id = $transactionService->getUserAccountIdByUserName($request->get('name'));
-        $type_id = $transactionService->getTypeId($request->get('type'));
+        $utcId = $transactionService->getUserAccountIdByUserName($request->get('name'));
+        $typeId = $transactionService->getTypeId($request->get('type'));
 
         //TODO shoudl be related to user_Transactions_accounts and there is no unique field there as ther could be multiple accounts per user,
         //For task we only take first from that table (As default) based on user name when creating transasction
-        $transactionService->storeTransaction($amount, $type_id, $utc_id);
+        $transactionService->storeTransaction($amount, $typeId, $utcId);
 
         return response()->json("ok", 201);
     }

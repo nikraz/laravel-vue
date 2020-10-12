@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 
 class TransactionsRepository extends AbstractRepository
 {
-
     //Query builder used
     /**
      * @param $orderBy
@@ -43,6 +42,11 @@ class TransactionsRepository extends AbstractRepository
     }
 
     //Normally should return collection of new record and resource todo if time
+    /**
+     * @param $amount
+     * @param $type_id
+     * @param $utc_id
+     */
     public function storeTransaction($amount, $type_id, $utc_id): void
     {
            Transactions::create([

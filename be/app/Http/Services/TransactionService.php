@@ -7,8 +7,6 @@ use App\Http\Repositories\TransactionTypesRepository;
 use App\Http\Repositories\UsersRepository;
 use App\Http\Repositories\UserTransactionAccountsRepository;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class TransactionService extends AbstractService
 {
@@ -63,7 +61,9 @@ class TransactionService extends AbstractService
     }
 
     /**
-     * @param $request
+     * @param $amount
+     * @param $type_id
+     * @param $utc_id
      * @return void
      */
     public function storeTransaction($amount, $type_id, $utc_id): void
