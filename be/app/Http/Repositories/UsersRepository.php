@@ -9,18 +9,13 @@ class UsersRepository extends AbstractRepository
     /**
      * @param int $id
      * @param string $name
-     * @return bool
+     * @return void
      */
-    public function updateNameById(int $id, string $name): bool
+    public function updateNameById(int $id, string $name): void
     {
         $user = User::find($id);
 
-        if ($user) {
-            $user->name = $name;
-            $user->save();
-            return true;
-        }
-
-        return false;
+        $user->name = $name;
+        $user->save();
     }
 }

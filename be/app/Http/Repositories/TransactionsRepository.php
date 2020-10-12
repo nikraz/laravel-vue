@@ -34,70 +34,48 @@ class TransactionsRepository extends AbstractRepository
     //Used models
     /**
      * @param int $id
-     * @return bool
+     * @return void
      */
-    public function removeTransactionById(int $id): bool
+    public function removeTransactionById(int $id): void
     {
             $transaction = Transactions::findOrFail($id);
-
-            if($transaction){
-                $transaction->delete();
-                return true;
-            }
-
-            return false;
+            $transaction->delete();
     }
 
     //Normally should return collection of new record and resource todo if time
-    public function storeTransaction($amount, $type_id, $utc_id): bool
+    public function storeTransaction($amount, $type_id, $utc_id): void
     {
-        try {
-           $trans = Transactions::create([
+           Transactions::create([
                 'account_id' => $utc_id,
                 'amount' => $amount,
                 'type_id' => $type_id,
             ]);
-            $trans->save();
-            return true;
-        } catch (\Exception $exception) {
-            return false;
-        }
     }
 
     /**
      * @param $id
      * @param $amount
-     * @return bool
+     * @return void
      */
-    public function updateAmountById($id, $amount): bool
+    public function updateAmountById($id, $amount): void
     {
         $transaction = Transactions::find($id);
 
-        if ($transaction) {
-            $transaction->amount = $amount;
-            $transaction->save();
-            return true;
-        }
-
-        return false;
+        $transaction->amount = $amount;
+        $transaction->save();
     }
 
     /**
      * @param $id
      * @param $typeId
-     * @return bool
+     * @return void
      */
-    public function updateTypeById($id, $typeId): bool
+    public function updateTypeById($id, $typeId): void
     {
         $transaction = Transactions::find($id);
 
-        if ($transaction) {
-            $transaction->type_id = $typeId;
-            $transaction->save();
-            return true;
-        }
-
-        return false;
+        $transaction->type_id = $typeId;
+        $transaction->save();
     }
 
     /**

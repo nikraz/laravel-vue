@@ -55,20 +55,20 @@ class TransactionService extends AbstractService
 
     /**
      * @param $id
-     * @return bool
+     * @return void
      */
-    public function removeTransactionById($id): bool
+    public function removeTransactionById($id): void
     {
-        return $this->_transactionRepository->removeTransactionById($id);
+        $this->_transactionRepository->removeTransactionById($id);
     }
 
     /**
      * @param $request
-     * @return bool
+     * @return void
      */
-    public function storeTransaction($amount, $type_id, $utc_id): bool
+    public function storeTransaction($amount, $type_id, $utc_id): void
     {
-        return $this->_transactionRepository->storeTransaction($amount, $type_id, $utc_id);
+        $this->_transactionRepository->storeTransaction($amount, $type_id, $utc_id);
     }
 
     /**
@@ -107,36 +107,26 @@ class TransactionService extends AbstractService
         return $transactionsWithEditOption;
     }
 
-    public function updateByType($transactionId, $type, $newValue): bool
+    public function updateByType($transactionId, $type, $newValue): void
     {
             switch ($type){
                 case 'name':
                             $accountId = $this->_transactionRepository->getAccountIdById($transactionId);
                             $userId = $this->_userTransactionAccountsRepository->getUserById($accountId);
 
-                            if (!$userId) {
-                                return false;
-                            }
-
-                            return $this->_usersRepository->updateNameById($userId, $newValue);
+                            $this->_usersRepository->updateNameById($userId, $newValue);
+                            break;
                 case 'type':
                     $typeId = $this->_transactionTypesRepository->getTransactionTypesId($newValue);
-
-                    if ($typeId) {
-                        return $this->_transactionRepository->updateTypeById($transactionId, $typeId);
-                    }
-
-                    return false;
+                    $this->_transactionRepository->updateTypeById($transactionId, $typeId);
+                    break;
                 case 'amount':
-                  return  $this->_transactionRepository->updateAmountById($transactionId, $newValue);
+                    $this->_transactionRepository->updateAmountById($transactionId, $newValue);
+                    break;
                 case 'balance':
                     $accountId = $this->_transactionRepository->getAccountIdById($transactionId);
-
-                    if (!$accountId) {
-                        return false;
-                    }
-
-                  return  $this->_userTransactionAccountsRepository->updateBalanceById($accountId, $newValue);
+                    $this->_userTransactionAccountsRepository->updateBalanceById($accountId, $newValue);
+                    break;
              }
 
     }

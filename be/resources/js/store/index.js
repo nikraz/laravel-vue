@@ -6,7 +6,7 @@ import getters from './getters'
 import state from "./state";
 import boostrap from "bootstrap-vue"
 
-//Registered globally
+//Registered globally currently vuex is useless but is first attempt so I don't remove it
 Vue.use(Vuex);
 Vue.use(boostrap);
 

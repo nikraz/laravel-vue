@@ -30,33 +30,21 @@ class TransactionsController extends Controller
 
         //TODO shoudl be related to user_Transactions_accounts and there is no unique field there as ther could be multiple accounts per user,
         //For task we only take first from that table (As default) based on user name when creating transasction
-        $transactionStored = $transactionService->storeTransaction($amount, $type_id, $utc_id);
-
-        if (!$transactionStored) {
-            return response()->json('fail', 400);
-        }
+        $transactionService->storeTransaction($amount, $type_id, $utc_id);
 
         return response()->json("ok", 201);
     }
 
     public function update($id, UpdateTransaction $request, TransactionService $transactionService)
     {
-        $transactionUpdate = $transactionService->updateByType($id, $request->get('type'), $request->get('value'));
-
-        if (!$transactionUpdate) {
-            return response()->json('fail', 400);
-        }
+        $transactionService->updateByType($id, $request->get('type'), $request->get('value'));
 
         return response()->json("ok", 200);
     }
 
     public function destroy($id, TransactionService $transactionService)
     {
-        $transactionRemoved = $transactionService->removeTransactionById($id);
-
-        if (!$transactionRemoved) {
-            return response()->json('fail', 400);
-        }
+        $transactionService->removeTransactionById($id);
 
         return response()->json("ok", 204);
     }
